@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Merry Christmas ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="app.css" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <!-- Decorative background -->
+    <div class="decor-layer" aria-hidden="true">
+      <div class="tree tree-left">
+        <svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="60,10 20,60 100,60" fill="#157a42" />
+          <polygon points="60,40 15,95 105,95" fill="#1b8e4d" />
+          <polygon points="60,75 10,130 110,130" fill="#219e58" />
+          <rect x="52" y="130" width="16" height="22" fill="#6b3f28" />
+          <!-- Ornaments -->
+          <circle cx="40" cy="70" r="4" fill="#c0002d" />
+          <circle cx="80" cy="85" r="3.5" fill="#ffd23f" />
+          <circle cx="55" cy="55" r="3" fill="#c0002d" />
+          <circle cx="70" cy="105" r="3.2" fill="#ffd23f" />
+          <!-- Star -->
+          <polygon points="60,0 64,12 78,12 66,20 70,32 60,24 50,32 54,20 42,12 56,12" fill="#ffd23f" />
+        </svg>
+      </div>
+      <div class="tree tree-right">
+        <svg viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <polygon points="60,10 20,60 100,60" fill="#157a42" />
+          <polygon points="60,40 15,95 105,95" fill="#1b8e4d" />
+          <polygon points="60,75 10,130 110,130" fill="#219e58" />
+          <rect x="52" y="130" width="16" height="22" fill="#6b3f28" />
+          <circle cx="45" cy="68" r="4" fill="#ffd23f" />
+          <circle cx="75" cy="93" r="3.5" fill="#c0002d" />
+          <circle cx="58" cy="52" r="3" fill="#ffd23f" />
+          <circle cx="68" cy="108" r="3.2" fill="#c0002d" />
+          <polygon points="60,0 64,12 78,12 66,20 70,32 60,24 50,32 54,20 42,12 56,12" fill="#ffd23f" />
+        </svg>
+      </div>
+      <div class="ground"></div>
+    </div>
+
+    <div id="root"></div>
+    <!-- Snow overlay container -->
+    <div class="snow-container" aria-hidden="true"></div>
+    <!-- Inline JSX to avoid file:// XHR restrictions -->
+    <script type="text/babel" data-presets="env,react">
+      const { useState, useEffect } = React;
+
+      const TOTAL_HEARTS = 14;
+
+      function App() {
+        const [clicked, setClicked] = useState([]);
+
+        const handleClick = (id) => {
+          if (!clicked.includes(id)) {
+            setClicked([...clicked, id]);
+          }
+        };
+
+        useEffect(() => {
+          if (clicked.length === TOTAL_HEARTS) {
+            launchConfetti();
+          }
+        }, [clicked]);
+
+        return (
+          <div className="container">
+            <div className="lights-strip">
+              {Array.from({ length: 28 }).map((_, i) => (
+                <span key={i} className={`bulb ${i % 2 === 0 ? "red" : "white"}`}></span>
+              ))}
+            </div>
+            <h1 className="title">🎄 Merry Christmas 🎄</h1>
+            <p className="subtitle">Tap the hearts to reveal a surprise</p>
+
+            <div className="hearts-grid">
+              {Array.from({ length: TOTAL_HEARTS }).map((_, i) => (
+                <button
+                  key={i}
+                  className={`heart-btn ${clicked.includes(i) ? "clicked" : ""}`}
+                  onClick={() => handleClick(i)}
+                >
+                  ❤️
+                </button>
+              ))}
+            </div>
+
+            {clicked.length === TOTAL_HEARTS && (
+              <div className="secret-message">
+                <p>I LOVE YOU</p>
+                <p>AND THIS IS A SMALL GIFT FROM ME TO YOU</p>
+                <p className="cutu">CUTU 🎁❤️</p>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      function launchConfetti() {
+        const container = document.createElement('div');
+        container.className = 'confetti-container';
+        document.body.appendChild(container);
+        const COUNT = 80;
+        for (let i = 0; i < COUNT; i++) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti-piece ' + (i % 2 === 0 ? 'red' : 'white');
+          piece.style.left = Math.random() * 100 + 'vw';
+          piece.style.animationDelay = (Math.random() * 0.8).toFixed(2) + 's';
+          piece.style.transform = `translateY(-10px) rotate(${Math.random() * 90}deg)`;
+          container.appendChild(piece);
+        }
+        setTimeout(() => {
+          container.remove();
+        }, 2500);
+      }
+
+      window.App = App;
+    </script>
+
+    <script type="text/babel" data-presets="env,react">
+      ReactDOM.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>,
+        document.getElementById("root")
+      );
+    </script>
+    <!-- Lightweight snowfall generator (vanilla JS) -->
+    <script>
+      (function () {
+        const COUNT = 80;
+        const container = document.querySelector('.snow-container');
+        if (!container) return;
+        for (let i = 0; i < COUNT; i++) {
+          const flake = document.createElement('span');
+          flake.className = 'snowflake' + (Math.random() < 0.55 ? ' drift' : '');
+          flake.textContent = Math.random() < 0.2 ? '❄' : '•';
+          flake.style.left = Math.random() * 100 + 'vw';
+          flake.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+          flake.style.animationDuration = (Math.random() * 6 + 6).toFixed(2) + 's';
+          flake.style.fontSize = (Math.random() * 0.9 + 0.7).toFixed(2) + 'rem';
+          flake.style.opacity = (Math.random() * 0.6 + 0.4).toFixed(2);
+          container.appendChild(flake);
+        }
+      })();
+    </script>
+  </body>
+</html>

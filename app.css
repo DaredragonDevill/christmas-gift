@@ -1,0 +1,210 @@
+:root {
+  --red: #c0002d;
+  --red-dark: #8e0022;
+  --red-soft: #ffe5ea;
+  --gold: #ffd23f;
+  --pine: #157a42;
+  --white: #ffffff;
+  --text: #2e2e2e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 50% -100px, #fff8fb, #fff4f6 40%, #fff0f3 60%, #ffeaf0);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+}
+
+/* Snow overlay */
+.snow-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.snowflake {
+  position: absolute;
+  top: -2rem;
+  color: var(--white);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-2rem); }
+  100% { transform: translateY(110vh); }
+}
+/* Snow drift variant */
+.snowflake.drift { animation-name: fallDrift; }
+@keyframes fallDrift {
+  0% { transform: translate(-10px, -2rem); }
+  50% { transform: translate(10px, 55vh); }
+  100% { transform: translate(-10px, 110vh); }
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 24px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  margin-bottom: 24px;
+  color: var(--red);
+  text-shadow: 0 2px 12px rgba(192, 0, 45, 0.25);
+}
+
+.subtitle {
+  font-size: clamp(1rem, 3.2vw, 1.2rem);
+  color: #7a7a7a;
+  margin-bottom: 18px;
+}
+
+.hearts-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 76px;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.heart-btn {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  background: var(--red-soft);
+  border: 2px solid var(--red);
+  border-radius: 16px;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.heart-btn:hover {
+  transform: translateY(-2px) scale(1.06);
+  background: #ffd2da;
+  box-shadow: 0 6px 16px rgba(192, 0, 45, 0.2);
+}
+.heart-btn.clicked {
+  background: var(--red);
+  color: var(--white);
+  transform: scale(1.03);
+}
+
+.secret-message {
+  animation: fadeIn 600ms ease forwards;
+  background: var(--white);
+  padding: 20px;
+  border-radius: 18px;
+  border: 2px solid var(--red);
+  box-shadow: 0 8px 24px rgba(192, 0, 45, 0.18);
+}
+.secret-message p {
+  font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+  margin: 8px 0;
+  color: var(--text);
+}
+.cutu {
+  font-size: clamp(1.2rem, 4.2vw, 1.8rem);
+  color: var(--red-dark);
+  font-weight: 700;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Decorative lights */
+.lights-strip {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.bulb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(192, 0, 45, 0.28);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+.bulb.red { background: var(--red); }
+.bulb.white { background: var(--white); box-shadow: 0 0 10px rgba(255,255,255,0.6); }
+@keyframes twinkle {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50% { transform: translateY(1px); opacity: 0.55; }
+}
+
+/* Confetti */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Decorative background layer */
+.decor-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18vh;
+  background: linear-gradient(0deg, rgba(255,255,255,0.95), rgba(255,255,255,0.6));
+}
+.tree {
+  position: absolute;
+  bottom: 8vh;
+  filter: drop-shadow(0 8px 10px rgba(0,0,0,0.15));
+}
+.tree-left { left: 4vw; width: min(22vw, 260px); }
+.tree-right { right: 4vw; width: min(22vw, 260px); }
+.tree svg { width: 100%; height: auto; display: block; }
+
+/* Mobile adjustments for decorations */
+@media (max-width: 600px) {
+  .ground { height: 14vh; }
+  .tree-left, .tree-right { width: min(32vw, 200px); bottom: 6vh; }
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 14px;
+  background: var(--red);
+  animation: confetti 2.2s ease-out forwards;
+}
+.confetti-piece.white { background: var(--white); }
+@keyframes confetti {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(540deg); opacity: 0; }
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .container { padding: 18px; }
+  .hearts-grid { gap: 10px; }
+  .heart-btn { border-radius: 14px; }
+}
